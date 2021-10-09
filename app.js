@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const mysql = require("mysql");
 const dotenv = require("dotenv");
@@ -20,10 +21,16 @@ db.connect((error) =>
     else console.log("MYSQL Connected...");
 });
 
-app.get("/", (req, res) => 
-{
-    res.send("<h1>Hello World</h1>");
-});
+const publicDirectory = path.join(__dirname, "./public");
+app.use(express.static(publicDirectory));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.set("view engine", "hbs");
+
+app.use("/", require("./routes/pages"));
+app.use("/auth", require("./routes/auth"));
 
 app.listen(port, () => 
 {
