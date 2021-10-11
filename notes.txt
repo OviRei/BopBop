@@ -1,0 +1,46 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+export function setCookie(cname, cvalue, exdays) 
+{
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    const expires = `expires=${ d.toUTCString()}`;
+    document.cookie = `${cname}=${cvalue};${expires};path=/`;
+}
+
+export function getCookie(cname) 
+{
+    const name = `${cname}=`;
+    const ca = document.cookie.split(";");
+    for(let i = 0; i < ca.length; i++) 
+    {
+        let c = ca[i];
+        while (c.charAt(0) == " ") 
+        {
+            c = c.substring(1);
+        }
+        if(c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+https://discordapp.com/channels/854699834136330300/854700188806676480/896801983183339561
+
+if you just want to get something working for now to get the idea without worrying about jwt and stuff, 
+have an array on the server. everytime someone logs in generate a unique random id,
+store it as a cookie or in session storage on the client and in the array of the server.
+when the client makes a request to some sort of protected web page it has to send the token with the request as header for example.
+on the server check if the token is in the array, if it is redirect the client,
+if it isnt show some kind of error page or redirect to the login page
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

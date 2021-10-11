@@ -24,13 +24,14 @@ exports.register = (req, res) =>
             else if(results.length > 0) return res.redirect(`/register?error=${encodeURIComponent("Email_Inuse")}`);
             else if(password !== passwordConfirm) return res.redirect(`/register?error=${encodeURIComponent("Passwords_Dont_Match")}`);
 
-            // eslint-disable-next-line prefer-const
-            let hashedPassword = await bcrypt.hash(password, 8);
-
-            db.query("INSERT INTO users SET ?", {username: username, email: email, password: hashedPassword}, (error) => 
+            bcrypt.hash(password, 10, function(error, hashedPassword) 
             {
                 if(error) return console.log(error);
-                else res.redirect(`/register?error=${encodeURIComponent("User_Registered")}`);
+                db.query("INSERT INTO users SET ?", {username: username, email: email, password: hashedPassword}, (error) => 
+                {
+                    if(error) return console.log(error);
+                    res.redirect("/home");
+                });
             });
         });
     });
