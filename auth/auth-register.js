@@ -1,5 +1,4 @@
 const mysql = require("mysql");
-//const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const db = mysql.createConnection({
@@ -30,7 +29,7 @@ exports.register = (req, res) =>
                 db.query("INSERT INTO users SET ?", {username: username, email: email, password: hashedPassword}, (error) => 
                 {
                     if(error) return console.log(error);
-                    res.redirect("/home");
+                    res.redirect("/login");
                 });
             });
         });

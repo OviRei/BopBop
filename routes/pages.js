@@ -17,9 +17,14 @@ router.get("/register",  (req, res) =>
     res.render("register");
 });
 
-router.get("/home",  (req, res) => 
+router.get("/home", (req, res) => 
 {
-    res.render("home");
+    if(req.session.user === undefined)
+    {
+        res.redirect("/login");
+        return;
+    }
+    res.render("home", { session: req.session });
 });
 
 module.exports = router;

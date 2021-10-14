@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const mysql = require("mysql");
 const dotenv = require("dotenv");
+const session = require("express-session");
 
 dotenv.config({ path: "./.env" });
 
@@ -23,6 +24,8 @@ db.connect((error) =>
 
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
+
+app.use(session({ secret: "sure#9025" }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

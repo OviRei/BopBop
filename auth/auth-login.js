@@ -23,6 +23,7 @@ exports.login = (req, res) =>
             if(error) return console.log(error);
             if(!result) return res.redirect(`/login?error=${encodeURIComponent("Invaild_Credentials")}`);
 
+            req.session.user = results;
             res.redirect("/home");
         });
     });
