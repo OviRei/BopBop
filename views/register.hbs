@@ -20,7 +20,7 @@
             <li><a href="/register">Register</a></li>
         </ul>
     </nav>
-    <br><br>
+    <br><br><br><br>
 
     <div class="container-register">
         <div class="card">
@@ -54,13 +54,15 @@
                         </div>
                     </form>
                 </div> {{!-- wrap-register --}}                
-            </div> {{!-- card-body --}}
+            </div> {{!-- card-body --}}    
+
+            <div class="card bg-danger text-white text-center p-1" id="warningAlert">
+                <blockquote class="blockquote mb-0">
+                    <p id="warningAlertText" style="margin-top: 2.5%;"></p>
+                </blockquote>
+            </div>
         </div> {{!-- card --}}
     </div> {{!-- container-register --}}
-
-    <div class="alert alert-danger" role="alert" id="warningAlert">
-        <p style="text-align: center;"></p>
-    </div>
 
 
     <script src="/js/register.js"></script>

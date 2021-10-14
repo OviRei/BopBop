@@ -6,19 +6,18 @@ switch(myParam)
 {
     case "Username_Inuse":
         document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "That username is already in use";
+        document.getElementById("warningAlertText").innerHTML = "That username is already in use";
+        document.getElementById("warningAlertText").scrollIntoView();
         break;
     case "Email_Inuse":
         document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "That email is already in use";
+        document.getElementById("warningAlertText").innerHTML = "That email is already in use";
+        document.getElementById("warningAlertText").scrollIntoView();
         break;
     case "Passwords_Dont_Match":
         document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "Your passwords don't match";
-        break;
-    case "User_Registered":
-        document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "User registered :)";
+        document.getElementById("warningAlertText").innerHTML = "Your passwords don't match";
+        document.getElementById("warningAlertText").scrollIntoView();
         break;
     default:
         document.getElementById("warningAlert").style.display = "none";

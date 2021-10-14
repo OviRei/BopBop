@@ -6,11 +6,7 @@ switch(myParam)
 {
     case "Invaild_Credentials":
         document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "The credentials you have entered it wrong";
-        break;
-    case "User_Loggedin":
-        document.getElementById("warningAlert").style.display = "block";
-        document.getElementById("warningAlert").children[0].innerHTML = "User logged in :)";
+        document.getElementById("warningAlertText").innerHTML = "The credentials you have entered is wrong";
         break;
     default:
         document.getElementById("warningAlert").style.display = "none";
