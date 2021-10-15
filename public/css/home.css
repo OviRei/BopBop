@@ -1,0 +1,76 @@
+body {
+    background-color: rgb(30, 30, 32);
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    position: fixed;
+    bottom: 4%;
+    right: 3%;
+    
+}
+
+#postButtonText {
+    font-size: 50px;
+    position: relative;
+    bottom: 40%;
+}
+
+/*.sections {
+    background-color: rgb(46, 46, 49);
+    color: white;
+}*/
+
+.hideScrollbar {
+    overflow-y: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+  
+.hideScrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.users-button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #dc3545;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 1.25rem;
+    padding: 10px;
+    width: 15rem;
+    transition: all 0.5s;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: 3px;
+}
+  
+.users-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+  
+.users-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+  
+.users-button:hover span {
+    padding-right: 25px;
+}
+  
+.users-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}

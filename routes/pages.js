@@ -27,4 +27,24 @@ router.get("/home", (req, res) =>
     res.render("home", { session: req.session });
 });
 
+router.get("/profile", (req, res) => 
+{
+    if(req.session.user === undefined)
+    {
+        res.redirect("/login");
+        return;
+    }
+    res.render("profile", { session: req.session });
+});
+
+router.get("/settings", (req, res) => 
+{
+    if(req.session.user === undefined)
+    {
+        res.redirect("/login");
+        return;
+    }
+    res.render("settings", { session: req.session });
+});
+
 module.exports = router;
