@@ -30,7 +30,7 @@ app.use(session({ secret: "sure#9025" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 
 app.use("/", require("./routes/pages"));
 app.use("/auth", require("./routes/auth"));

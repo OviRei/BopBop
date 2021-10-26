@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+
+  <title>BopBop</title>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <%- include('./partials/navbar-2'); %>
+  <br><br><br><br><br><br>
+
+  <div class="card-columns d-flex justify-content-between">
+    <!-- Profile -->
+    <div class="card mb-3 ml-4 sections overflow-auto hideScrollbar" style="width: 18rem; height: 25rem;">
+      <div class="card-body">
+        <h5 class="card-title"><b><%= urlParamUsername %>'s Profile</b></h5>
+        <p>Joined on <%= userInfo[0].joinDate %></p>
+        <button id="close-image" style="position: relative; left: 28.5%; background: none; border: none;"><img src="/media/profile-placeholder.png" style="width:100px; height: 100px;"></button>
+        <h6><b>Bio:</b></h4>
+        <h6><%= userInfo[0].bio %></h6>
+
+          <% if(followBtnState) { %>
+            <form action="/auth/follow" method="post" id="followButton">
+              <textarea type="text" name="username" style="display: none;"><%= session.username %></textarea>
+              <button name="userToFollow" value="<%= urlParamUsername %>" class="btn btn-danger" style="position: relative; left: 33%;">Follow</button>
+            </form>
+          <% } else { %>
+            <form action="/auth/unfollow" method="post" id="unfollowButton">
+              <textarea type="text" name="username" style="display: none;"><%= session.username %></textarea>
+              <button name="userToUnfollow" value="<%= urlParamUsername %>" class="btn btn-danger" style="position: relative; left: 33%;">Unfollow</button>
+            </form>
+          <% } %>
+      </div>
+    </div>
+
+    <!-- Posts -->
+    <div class="card mb-3 sections" style="width: 40rem;">
+      <div class="card-body">
+        <h5 class="card-title"><b>Posts</b></h5>
+        <%- include('./partials/posts-filler'); %>
+      </div>
+
+      <!-- Followers -->
+      <div class="card mb-3 mr-4 sections overflow-auto hideScrollbar" style="width: 18rem;  height: 25rem;">
+        <div class="card-body">
+          <h5 class="card-title" id="followersUserCounter"><b>Followers</b></h5>
+          <% for(user of userFollowers) { %>
+          <button class="users-button" onclick="location.href='/profile?user=<%= user.username %>';"><span><%= user.username %></span></button>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Following -->
+      <div id="followingCard" class="card mb-3 mr-4 sections overflow-auto hideScrollbar"
+        style="width: 18rem;  height: 25rem;">
+        <div class="card-body">
+          <h5 class="card-title" id="followingUserCounter"><b>Following</b></h5>
+          <% for(user of userFollowing) { %>
+          <button class="users-button" onclick="location.href='/profile?user=<%= user.following %>';"><span><%= user.following %></span></button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
