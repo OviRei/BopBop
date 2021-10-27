@@ -22,6 +22,19 @@ db.connect((error) =>
     else console.log("MYSQL Connected...");
 });
 
+db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), email VARCHAR(255), password VARCHAR(255))", async (error) => 
+{
+    if(error) return console.log(error);
+    db.query("CREATE TABLE IF NOT EXISTS user_info (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), bio VARCHAR(255), joinDate VARCHAR(10), pfp BLOB)", async (error) => 
+    {
+        if(error) return console.log(error);
+        db.query("CREATE TABLE IF NOT EXISTS user_following (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), following VARCHAR(18))", async (error) => 
+        {
+            if(error) return console.log(error);
+        });
+    });
+});
+
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
 
