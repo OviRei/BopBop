@@ -16,11 +16,43 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 });
 
-db.connect((error) => 
+function handleError() 
 {
-    if(error) console.log(error);
-    else console.log("MYSQL Connected...");
-});
+    db.connect(function(error) 
+    {
+        if(error) 
+        {
+            console.log("Error when connecting to db:", error);
+            setTimeout(handleError, 2000);
+        }
+        else console.log("MYSQL Connected...");
+    });
+
+    db.on("error", function(error) 
+    {
+        console.log("DB error:", error);
+        if(error.code === "PROTOCOL_CONNECTION_LOST") handleError();
+        else throw error;
+    });
+}
+handleError();
+
+//Stops MySQL connecting from getting pruned after being idle
+function reconnect_timeout()
+{
+    const date = new Date().toString();
+    db.query("show variables like 'wait_timeout'", function(error) 
+    {
+        if(error) console.log("Error while trying to keep the connecting alive:", error);
+        else 
+        {
+            process.stdout.write("\r\x1b[K");
+            process.stdout.write(`Last refresh: ${date}`);
+        }
+    });
+}
+reconnect_timeout();
+setInterval(reconnect_timeout, 15*1000);
 
 db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), email VARCHAR(255), password VARCHAR(255))", async (error) => 
 {
