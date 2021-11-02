@@ -7,7 +7,7 @@ const session = require("express-session");
 dotenv.config({ path: "./.env" });
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -31,7 +31,7 @@ function handleError()
     db.on("error", function(error) 
     {
         console.log("DB error:", error);
-        if(error.code === "PROTOCOL_CONNECTION_LOST") handleError();
+        if(error.code === "PROTOCOL_CONNECTION_LOST" || error.code === "ECONNRESET")  handleError();
         else throw error;
     });
 }

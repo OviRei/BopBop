@@ -29,6 +29,7 @@ I created this project using:
    DATABASE_HOST = localhost
    DATABASE_USER = [mysql username]
    DATABASE_PASSWORD = [mysql password]
+   PORT = 5000;
   ```
 6. Run `npm install`
 7. Run `npm start`
