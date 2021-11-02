@@ -7,7 +7,7 @@ const session = require("express-session");
 dotenv.config({ path: "./.env" });
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -40,15 +40,9 @@ handleError();
 //Stops MySQL connecting from getting pruned after being idle
 function reconnect_timeout()
 {
-    const date = new Date().toString();
     db.query("show variables like 'wait_timeout'", function(error) 
     {
         if(error) console.log("Error while trying to keep the connecting alive:", error);
-        else 
-        {
-            process.stdout.write("\r\x1b[K");
-            process.stdout.write(`Last refresh: ${date}`);
-        }
     });
 }
 reconnect_timeout();
