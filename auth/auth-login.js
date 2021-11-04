@@ -13,7 +13,7 @@ const query = (command, params) => new Promise((resolve) =>
 {
     db.getConnection((err, connection) => 
     {
-        if(err) return console.error(err);
+        if(err) return console.log("Error when connecting to db:", err);
         connection.query(command, params, (err, results) => 
         {
             if(err) return console.error(err);
@@ -67,7 +67,6 @@ exports.login = async (req, res) =>
         if(error) return console.log(error);
         if(!result) return res.redirect(`/login?error=${encodeURIComponent("Invaild_Credentials")}`);
 
-        console.log(userResults);
         req.session.user = userResults;
         res.redirect("/home");
     });
