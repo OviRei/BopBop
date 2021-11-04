@@ -1,34 +1,45 @@
 const mysql = require("mysql");
 
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
+const db = mysql.createPool({
+    connectionLimit : 100,
+    host: process.env.DATABASE_HOST, 
+    user: process.env.DATABASE_USER, 
+    password: process.env.DATABASE_PASSWORD, 
     database: process.env.DATABASE
 });
 
-exports.follow = (req, res) => 
+const query = (command, params) => new Promise((resolve) => 
 {
-    const { username, userToFollow } = req.body;
-    db.query("SELECT * FROM user_following WHERE username = ? AND following = ?", [username, userToFollow], async (error, results) => 
+    db.getConnection((err, connection) => 
     {
-        if(error) return console.log(error);
-        if(results[0]) return res.redirect(`/profile?user=${userToFollow}`);
-
-        db.query("INSERT INTO user_following SET ?", { username: username, following: userToFollow }, (error) => 
+        if(err) return console.error(err);
+        connection.query(command, params, (err, results) => 
         {
-            if(error) return console.log(error);
-            res.redirect(`/profile?user=${userToFollow}`);
+            if(err) return console.error(err);
+            resolve(results);
+            connection.release(err => 
+            {
+                if(err) return console.error(err);
+            });
         });
     });
+});
+
+exports.follow = async (req, res) => 
+{
+    const { username, userToFollow } = req.body;
+
+    const results = await query("SELECT * FROM user_following WHERE username = ? AND following = ?", [username, userToFollow]);
+    if(results.length > 0) return res.redirect(`/profile?user=${userToFollow}`);
+
+    await query("INSERT INTO user_following SET ?", { username: username, following: userToFollow });
+    res.redirect(`/profile?user=${userToFollow}`);
 };
 
-exports.unfollow = (req, res) => 
+exports.unfollow = async (req, res) => 
 {
     const { username, userToUnfollow } = req.body;
-    db.query("DELETE FROM user_following WHERE username = ? AND following = ?", [username, userToUnfollow], (error) => 
-    {
-        if(error) return console.log(error);
-        res.redirect(`/profile?user=${userToUnfollow}`);
-    });
+
+    await query("DELETE FROM user_following WHERE username = ? AND following = ?", [username, userToUnfollow]);
+    res.redirect(`/profile?user=${userToUnfollow}`);
 };

@@ -56,3 +56,5 @@ select * FROM `bopbop_db`.`users`;
 
 18char max username
 no # in username
+
+ngrok http 5000 --region eu

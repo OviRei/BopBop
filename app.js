@@ -9,44 +9,14 @@ dotenv.config({ path: "./.env" });
 const app = express();
 const port = process.env.PORT || 5000;
 
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
+const DBcreateConnection = () => mysql.createConnection({ host: process.env.DATABASE_HOST, user: process.env.DATABASE_USER, password: process.env.DATABASE_PASSWORD, database: process.env.DATABASE });
+const db = DBcreateConnection();
+
+db.connect(function(error) 
+{
+    if(error) console.log("Error when connecting to db:", error);
+    else console.log("MYSQL Connected...");
 });
-
-function handleError() 
-{
-    db.connect(function(error) 
-    {
-        if(error) 
-        {
-            console.log("Error when connecting to db:", error);
-            setTimeout(handleError, 2000);
-        }
-        else console.log("MYSQL Connected...");
-    });
-
-    db.on("error", function(error) 
-    {
-        console.log("DB error:", error);
-        if(error.code === "PROTOCOL_CONNECTION_LOST" || error.code === "ECONNRESET")  handleError();
-        else throw error;
-    });
-}
-handleError();
-
-//Stops MySQL connecting from getting pruned after being idle
-function reconnect_timeout()
-{
-    db.query("show variables like 'wait_timeout'", function(error) 
-    {
-        if(error) console.log("Error while trying to keep the connecting alive:", error);
-    });
-}
-reconnect_timeout();
-setInterval(reconnect_timeout, 15*1000);
 
 db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), email VARCHAR(255), password VARCHAR(255))", async (error) => 
 {
@@ -57,6 +27,7 @@ db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY NO
         db.query("CREATE TABLE IF NOT EXISTS user_following (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, username VARCHAR(18), following VARCHAR(18))", async (error) => 
         {
             if(error) return console.log(error);
+            db.end();
         });
     });
 });
