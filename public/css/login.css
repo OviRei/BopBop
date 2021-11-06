@@ -212,3 +212,25 @@ textarea:-ms-input-placeholder { color: #8f8fa1;}
 .login-form-btn:hover {
     background-color: #aa0606;
 }
+
+#warningAlert {
+    position: fixed;
+    top: 89%;
+    left: 50%;
+    margin-left: -223px;
+    z-index: 9999;
+}
+
+.closebtn {
+    color: white;
+    margin-left: 7px;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
